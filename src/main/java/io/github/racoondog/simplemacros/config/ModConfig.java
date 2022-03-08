@@ -58,6 +58,11 @@ public class ModConfig implements ConfigData {
     public String ALT_PERIOD = "";
     public String ALT_RIGHTBRACKET = "";
     public String ALT_SEMICOLON = "";
+    public String ALT_M4 = "";
+    public String ALT_M5 = "";
+    public String ALT_M6 = "";
+    public String ALT_M7 = "";
+    public String ALT_M8 = "";
 
     public String CTRL_G = "";
     public String CTRL_H = "";
@@ -108,6 +113,11 @@ public class ModConfig implements ConfigData {
     public String CTRL_PERIOD = "";
     public String CTRL_RIGHTBRACKET = "";
     public String CTRL_SEMICOLON = "";
+    public String CTRL_M4 = "";
+    public String CTRL_M5 = "";
+    public String CTRL_M6 = "";
+    public String CTRL_M7 = "";
+    public String CTRL_M8 = "";
 
     public String ALTCTRL_G = "";
     public String ALTCTRL_H = "";
@@ -157,4 +167,9 @@ public class ModConfig implements ConfigData {
     public String ALTCTRL_PERIOD = "";
     public String ALTCTRL_RIGHTBRACKET = "";
     public String ALTCTRL_SEMICOLON = "";
+    public String ALTCTRL_M4 = "";
+    public String ALTCTRL_M5 = "";
+    public String ALTCTRL_M6 = "";
+    public String ALTCTRL_M7 = "";
+    public String ALTCTRL_M8 = "";
 }

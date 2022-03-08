@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class KeyBindings {
@@ -60,9 +61,24 @@ public class KeyBindings {
     public static final KeyBinding RBRACKET = make("rightbracket", InputUtil.GLFW_KEY_RIGHT_BRACKET);
     public static final KeyBinding SEMICOLON = make("semicolon", InputUtil.GLFW_KEY_SEMICOLON);
 
+    public static final KeyBinding M4 = mouse("m4", GLFW.GLFW_MOUSE_BUTTON_4);
+    public static final KeyBinding M5 = mouse("m5", GLFW.GLFW_MOUSE_BUTTON_5);
+    public static final KeyBinding M6 = mouse("m6", GLFW.GLFW_MOUSE_BUTTON_6);
+    public static final KeyBinding M7 = mouse("m7", GLFW.GLFW_MOUSE_BUTTON_7);
+    public static final KeyBinding M8 = mouse("m8", GLFW.GLFW_MOUSE_BUTTON_8);
+
     private static KeyBinding make(String id, int keybind) {
         return KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.%s.%s".formatted(SimpleMacros.MODID, id),
+                keybind,
+                "category.%s.keys".formatted(SimpleMacros.MODID)
+        ));
+    }
+
+    private static KeyBinding mouse(String id, int keybind) {
+        return KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.%s.%s".formatted(SimpleMacros.MODID, id),
+                InputUtil.Type.MOUSE,
                 keybind,
                 "category.%s.keys".formatted(SimpleMacros.MODID)
         ));

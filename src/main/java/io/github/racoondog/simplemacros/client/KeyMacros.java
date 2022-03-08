@@ -1,8 +1,6 @@
 package io.github.racoondog.simplemacros.client;
 
 import com.google.common.collect.Lists;
-import io.github.racoondog.simplemacros.SimpleMacros;
-import io.github.racoondog.simplemacros.config.ModConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.option.KeyBinding;
@@ -10,10 +8,10 @@ import net.minecraft.client.option.KeyBinding;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static io.github.racoondog.simplemacros.SimpleMacros.CONFIG;
+
 @Environment(EnvType.CLIENT)
 public class KeyMacros {
-    private static final ModConfig CONFIG = SimpleMacros.CONFIG;
-
     public static List<KeyMacro> generateAlt() {
         return Lists.newArrayList(
                 make(KeyBindings.B, () -> CONFIG.ALT_B),
@@ -64,7 +62,12 @@ public class KeyMacros {
                 make(KeyBindings.MINUS, () -> CONFIG.ALT_MINUS),
                 make(KeyBindings.PERIOD, () -> CONFIG.ALT_PERIOD),
                 make(KeyBindings.RBRACKET, () -> CONFIG.ALT_RIGHTBRACKET),
-                make(KeyBindings.SEMICOLON, () -> CONFIG.ALT_SEMICOLON)
+                make(KeyBindings.SEMICOLON, () -> CONFIG.ALT_SEMICOLON),
+                make(KeyBindings.M4, () -> CONFIG.ALT_M4),
+                make(KeyBindings.M5, () -> CONFIG.ALT_M5),
+                make(KeyBindings.M6, () -> CONFIG.ALT_M6),
+                make(KeyBindings.M7, () -> CONFIG.ALT_M7),
+                make(KeyBindings.M8, () -> CONFIG.ALT_M8)
         );
     }
 
@@ -118,7 +121,12 @@ public class KeyMacros {
                 make(KeyBindings.MINUS, () -> CONFIG.CTRL_MINUS),
                 make(KeyBindings.PERIOD, () -> CONFIG.CTRL_PERIOD),
                 make(KeyBindings.RBRACKET, () -> CONFIG.CTRL_RIGHTBRACKET),
-                make(KeyBindings.SEMICOLON, () -> CONFIG.CTRL_SEMICOLON)
+                make(KeyBindings.SEMICOLON, () -> CONFIG.CTRL_SEMICOLON),
+                make(KeyBindings.M4, () -> CONFIG.CTRL_M4),
+                make(KeyBindings.M5, () -> CONFIG.CTRL_M5),
+                make(KeyBindings.M6, () -> CONFIG.CTRL_M6),
+                make(KeyBindings.M7, () -> CONFIG.CTRL_M7),
+                make(KeyBindings.M8, () -> CONFIG.CTRL_M8)
         );
     }
 
@@ -171,7 +179,12 @@ public class KeyMacros {
                 make(KeyBindings.MINUS, () -> CONFIG.ALTCTRL_MINUS),
                 make(KeyBindings.PERIOD, () -> CONFIG.ALTCTRL_PERIOD),
                 make(KeyBindings.RBRACKET, () -> CONFIG.ALTCTRL_RIGHTBRACKET),
-                make(KeyBindings.SEMICOLON, () -> CONFIG.ALTCTRL_SEMICOLON)
+                make(KeyBindings.SEMICOLON, () -> CONFIG.ALTCTRL_SEMICOLON),
+                make(KeyBindings.M4, () -> CONFIG.ALTCTRL_M4),
+                make(KeyBindings.M5, () -> CONFIG.ALTCTRL_M5),
+                make(KeyBindings.M6, () -> CONFIG.ALTCTRL_M6),
+                make(KeyBindings.M7, () -> CONFIG.ALTCTRL_M7),
+                make(KeyBindings.M8, () -> CONFIG.ALTCTRL_M8)
         );
     }
 

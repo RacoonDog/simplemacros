@@ -52,6 +52,11 @@
 	"key.simplemacros.v": "V",
 	"key.simplemacros.y": "Y",
 	"key.simplemacros.z": "Z",
+	"key.simplemacros.m4": "Mouse Button 4",
+	"key.simplemacros.m5": "Mouse Button 5",
+	"key.simplemacros.m6": "Mouse Button 6",
+	"key.simplemacros.m7": "Mouse Button 7",
+	"key.simplemacros.m8": "Mouse Button 8",
 
 	"text.autoconfig.simplemacros.title": "Configure Macros",
 	"text.autoconfig.simplemacros.option.ALT_B": "Right Alt + B",
@@ -103,6 +108,11 @@
 	"text.autoconfig.simplemacros.option.ALT_PERIOD": "Right Alt + Period",
 	"text.autoconfig.simplemacros.option.ALT_RIGHTBRACKET": "Right Alt + Right Bracket",
 	"text.autoconfig.simplemacros.option.ALT_SEMICOLON": "Right Alt + Semicolon",
+	"text.autoconfig.simplemacros.option.ALT_M4": "Right Alt + Mouse Button 4",
+	"text.autoconfig.simplemacros.option.ALT_M5": "Right Alt + Mouse Button 5",
+	"text.autoconfig.simplemacros.option.ALT_M6": "Right Alt + Mouse Button 6",
+	"text.autoconfig.simplemacros.option.ALT_M7": "Right Alt + Mouse Button 7",
+	"text.autoconfig.simplemacros.option.ALT_M8": "Right Alt + Mouse Button 8",
 	
 	"text.autoconfig.simplemacros.option.CTRL_B": "Right Ctrl + B",
 	"text.autoconfig.simplemacros.option.CTRL_G": "Right Ctrl + G",
@@ -154,6 +164,11 @@
 	"text.autoconfig.simplemacros.option.CTRL_PERIOD": "Right Ctrl + Period",
 	"text.autoconfig.simplemacros.option.CTRL_RIGHTBRACKET": "Right Ctrl + Right Bracket",
 	"text.autoconfig.simplemacros.option.CTRL_SEMICOLON": "Right Ctrl + Semicolon",
+	"text.autoconfig.simplemacros.option.CTRL_M4": "Right Ctrl + Mouse Button 4",
+	"text.autoconfig.simplemacros.option.CTRL_M5": "Right Ctrl + Mouse Button 5",
+	"text.autoconfig.simplemacros.option.CTRL_M6": "Right Ctrl + Mouse Button 6",
+	"text.autoconfig.simplemacros.option.CTRL_M7": "Right Ctrl + Mouse Button 7",
+	"text.autoconfig.simplemacros.option.CTRL_M8": "Right Ctrl + Mouse Button 8",
 
 	"text.autoconfig.simplemacros.option.ALTCTRL_B": "Right Alt + Right Ctrl + B",
 	"text.autoconfig.simplemacros.option.ALTCTRL_G": "Right Alt + Right Ctrl + G",
@@ -203,5 +218,10 @@
 	"text.autoconfig.simplemacros.option.ALTCTRL_MINUS": "Right Alt + Right Ctrl + Minus",
 	"text.autoconfig.simplemacros.option.ALTCTRL_PERIOD": "Right Alt + Right Ctrl + Period",
 	"text.autoconfig.simplemacros.option.ALTCTRL_RIGHTBRACKET": "Right Alt + Right Ctrl + Right Bracket",
-	"text.autoconfig.simplemacros.option.ALTCTRL_SEMICOLON": "Right Alt + Right Ctrl + Semicolon"
+	"text.autoconfig.simplemacros.option.ALTCTRL_SEMICOLON": "Right Alt + Right Ctrl + Semicolon",
+	"text.autoconfig.simplemacros.option.ALTCTRL_M4": "Right Alt + Right Ctrl + Mouse Button 4",
+	"text.autoconfig.simplemacros.option.ALTCTRL_M5": "Right Alt + Right Ctrl + Mouse Button 5",
+	"text.autoconfig.simplemacros.option.ALTCTRL_M6": "Right Alt + Right Ctrl + Mouse Button 6",
+	"text.autoconfig.simplemacros.option.ALTCTRL_M7": "Right Alt + Right Ctrl + Mouse Button 7",
+	"text.autoconfig.simplemacros.option.ALTCTRL_M8": "Right Alt + Right Ctrl + Mouse Button 8"
 }

@@ -7,7 +7,8 @@
   "authors": [ "Crosby" ],
   "contact": {
     "sources": "https://github.com/RacoonDog/simplemacros",
-    "issues": "https://github.com/RacoonDog/simplemacros/issues"
+    "issues": "https://github.com/RacoonDog/simplemacros/issues",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/fabric-simple-macros"
   },
   "license": "LGPL-3.0",
   "icon": "assets/simplemacros/icon.png",
