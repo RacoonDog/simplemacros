@@ -21,6 +21,9 @@
       "io.github.racoondog.simplemacros.config.ModMenuIntegration"
     ]
   },
+  "mixins": [
+    "simplemacros.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.12.0",
     "fabric-key-binding-api-v1": "*",
