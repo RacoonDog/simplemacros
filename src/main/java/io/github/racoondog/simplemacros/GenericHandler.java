@@ -7,7 +7,7 @@ import com.google.gson.stream.JsonWriter;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,7 +33,7 @@ public class GenericHandler<T> implements Serializable<T> {
 
     public void save() {
         try {
-            var writer = Files.newBufferedWriter(this.file, StandardCharsets.UTF_8);
+            var writer = Files.newBufferedWriter(this.file);
             JsonWriter jsonWriter = new JsonWriter(writer);
             ADAPTER.write(jsonWriter, this.serialize());
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public class GenericHandler<T> implements Serializable<T> {
     public T load() {
         if (Files.isRegularFile(this.file)) {
             try {
-                var fileReader = Files.newBufferedReader(this.file, StandardCharsets.UTF_8);
+                var fileReader = Files.newBufferedReader(this.file);
                 JsonObject jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
                 return this.deserialize(jsonObject);
             } catch (IOException e) {
