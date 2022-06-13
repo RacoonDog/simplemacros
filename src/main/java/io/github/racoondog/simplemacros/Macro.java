@@ -14,16 +14,14 @@ public class Macro implements Serializable<Macro> {
     public int modifier;
     public String command;
     public Function<Integer, Boolean> isActionTypeValid;
-    public boolean cancel;
 
     public Macro() {}
 
-    public Macro(int key, int modifier, String command, int actionType, boolean cancel) {
+    public Macro(int key, int modifier, String command, int actionType) {
         this.key = key;
         this.modifier = modifier;
         this.command = command;
         this.isActionTypeValid = Enums.ActionType.indexToFunction(actionType);
-        this.cancel = cancel;
     }
 
     public boolean canRun(int key, int action, int modifier) {
@@ -42,7 +40,6 @@ public class Macro implements Serializable<Macro> {
         this.modifier = json.get("modifier").getAsInt();
         this.command = json.get("command").getAsString();
         this.isActionTypeValid = Enums.ActionType.indexToFunction(json.get("actionType").getAsInt());
-        this.cancel = json.get("cancel").getAsBoolean();
         return this;
     }
 
@@ -50,15 +47,14 @@ public class Macro implements Serializable<Macro> {
     public JsonObject serialize() {
         JsonObject json = new JsonObject();
         json.addProperty("key", this.key);
-        json.addProperty("modifer", this.modifier);
+        json.addProperty("modifier", this.modifier);
         json.addProperty("command", this.command);
         json.addProperty("actionType", Enums.ActionType.functionToIndex(this.isActionTypeValid));
-        json.addProperty("cancel", this.cancel);
         return json;
     }
 
     @Override
     public String toString() {
-        return "%s %s Action: %s Cancel: %s \"%s\"".formatted(Enums.Key.fromIndex(this.key), Enums.Modifier.fromIndex(this.modifier), Enums.ActionType.functionToIndex(this.isActionTypeValid), this.cancel, this.command);
+        return "%s %s Action: %s \"%s\"".formatted(Enums.Key.fromIndex(this.key), Enums.Modifier.fromIndex(this.modifier), Enums.ActionType.functionToIndex(this.isActionTypeValid), this.command);
     }
 }

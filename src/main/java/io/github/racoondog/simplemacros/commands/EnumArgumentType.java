@@ -84,15 +84,15 @@ public class EnumArgumentType<T extends Enum<?>> implements ArgumentType<Enum<?>
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         if (this.enumKlass.equals(Enums.Modifier.class)) {
             for (var value : Enums.Modifier.values()) {
-                builder.suggest(value.name());
+                if (value.name().startsWith(builder.getRemaining())) builder.suggest(value.name());
             }
         } else if (this.enumKlass.equals(Enums.ActionType.class)) {
             for (var value : Enums.ActionType.values()) {
-                builder.suggest(value.name());
+                if (value.name().startsWith(builder.getRemaining())) builder.suggest(value.name());
             }
         } else if (this.enumKlass.equals(Enums.Key.class)) {
             for (var value : Enums.Key.values()) {
-                builder.suggest(value.name());
+                if (value.name().startsWith(builder.getRemaining())) builder.suggest(value.name());
             }
         }
         return CompletableFuture.supplyAsync(builder::build);

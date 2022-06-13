@@ -34,10 +34,8 @@ public class CommandManager {
                 .then(argument("key", EnumArgumentType.key())
                         .then(argument("modifier", EnumArgumentType.modifier())
                                 .then(argument("actionType", EnumArgumentType.actionType())
-                                        .then(argument("cancel", BoolArgumentType.bool())
-                                                .then(argument("command", StringArgumentType.greedyString())
-                                                        .executes(CommandManager::add)
-                                                )
+                                        .then(argument("command", StringArgumentType.greedyString())
+                                                .executes(CommandManager::add)
                                         )
                                 )
                         )
@@ -52,7 +50,7 @@ public class CommandManager {
     }
 
     private static int test(CommandContext<FabricClientCommandSource> context) {
-        SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(Enums.Key.U.keyIdentifier, Enums.Modifier.Alt.modifierIdentifier, "/say testCommand", Enums.ActionType.Press.index, false));
+        SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(Enums.Key.U.keyIdentifier, Enums.Modifier.Alt.modifierIdentifier, "/say testCommand", Enums.ActionType.Press.index));
         context.getSource().sendFeedback(new LiteralText("Created test macro."));
         return 1;
     }
@@ -61,12 +59,11 @@ public class CommandManager {
         Enums.Key key = EnumArgumentType.getKey(context, "key");
         Enums.Modifier modifier = EnumArgumentType.getModifier(context, "modifier");
         Enums.ActionType actionType = EnumArgumentType.getActionType(context, "actionType");
-        boolean cancel = BoolArgumentType.getBool(context, "cancel");
         String command = StringArgumentType.getString(context, "command");
 
-        if (!Util.verifyMacroValidity(modifier, key, cancel)) return 0;
+        if (!Util.verifyMacroValidity(modifier, key)) return 0;
 
-        SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(key.keyIdentifier, modifier.modifierIdentifier, command, actionType.index, cancel));
+        SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(key.keyIdentifier, modifier.modifierIdentifier, command, actionType.index));
         SimpleMacros.MACRO_HANDLER.save();
 
         context.getSource().sendFeedback(new LiteralText("Successfully created new macro."));

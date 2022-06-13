@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(Mouse.class)
 public abstract class MouseMixin {
-    @Inject(method = "onMouseButton", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "onMouseButton", at = @At("HEAD"))
     private void onMouseButton(long window, int button, int action, int mods, CallbackInfo info) {
-        if (InputManager.handleInput(button, action, mods)) info.cancel();
+        InputManager.handleInput(button, action, mods);
     }
 }

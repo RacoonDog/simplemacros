@@ -9,10 +9,6 @@ import org.slf4j.Logger;
 
 @Environment(EnvType.CLIENT)
 public class SimpleMacros implements ClientModInitializer {
-    //todo fix saving
-    //todo make enum suggestions change based on what's written
-    //todo make better add command
-
     public static final String MODID = "simplemacros";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final MacroHandler MACRO_HANDLER = new MacroHandler().load();

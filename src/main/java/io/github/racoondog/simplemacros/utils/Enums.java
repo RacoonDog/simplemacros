@@ -23,15 +23,15 @@ public class Enums {
             this.modifierIdentifier = modifierIdentifier;
         }
 
-        public static boolean isShift(Enums.Modifier modifier) {
+        public static boolean hasShift(Enums.Modifier modifier) {
             return modifier.equals(Shift) || modifier.equals(ShiftCtrl) || modifier.equals(ShiftAlt) || modifier.equals(ShiftCtrlAlt);
         }
 
-        public static boolean isCtrl(Enums.Modifier modifier) {
+        public static boolean hasCtrl(Enums.Modifier modifier) {
             return modifier.equals(Ctrl) || modifier.equals(ShiftCtrl) || modifier.equals(CtrlAlt) || modifier.equals(ShiftCtrlAlt);
         }
 
-        public static boolean isAlt(Enums.Modifier modifier) {
+        public static boolean hasAlt(Enums.Modifier modifier) {
             return modifier.equals(Alt) || modifier.equals(ShiftAlt) || modifier.equals(CtrlAlt) || modifier.equals(ShiftCtrlAlt);
         }
 
