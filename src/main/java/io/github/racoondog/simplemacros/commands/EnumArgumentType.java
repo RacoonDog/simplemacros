@@ -6,15 +6,17 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import io.github.racoondog.simplemacros.Enums;
+import io.github.racoondog.simplemacros.utils.Enums;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
+@Environment(EnvType.CLIENT)
 public class EnumArgumentType<T extends Enum<?>> implements ArgumentType<Enum<?>> {
     private static final DynamicCommandExceptionType READER_INVALID_MODIFIER = new DynamicCommandExceptionType(value -> new LiteralMessage("Invalid modifier, '" + value + "' is not a valid modifier"));
     private static final DynamicCommandExceptionType READER_INVALID_ACTIONTYPE = new DynamicCommandExceptionType(value -> new LiteralMessage("Invalid action type, '" + value + "' is not a valid action type"));

@@ -61,6 +61,7 @@ public class GenericHandler<T> implements Serializable<T> {
         return null;
     }
 
+    @Override
     public T deserialize(JsonObject json) {
         return null;
     }

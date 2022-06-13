@@ -3,13 +3,16 @@ package io.github.racoondog.simplemacros;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
+import org.apache.commons.compress.utils.Lists;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class MacroHandler extends GenericHandler<MacroHandler> {
-    public final HashMap<String, Macro> macroMap = new HashMap<>();
+    public final List<Macro> macroList = Lists.newArrayList();
 
     public MacroHandler() {
         super(new Identifier(SimpleMacros.MODID, "macrohandler"));
@@ -18,7 +21,7 @@ public class MacroHandler extends GenericHandler<MacroHandler> {
     @Override
     public JsonObject serialize() {
         JsonArray array = new JsonArray();
-        for (var macro : this.macroMap.values()) {
+        for (var macro : this.macroList) {
             array.add(macro.serialize());
         }
         JsonObject json = new JsonObject();
@@ -30,14 +33,14 @@ public class MacroHandler extends GenericHandler<MacroHandler> {
     public MacroHandler deserialize(JsonObject json) {
         if (json != null && json.has("macros")) {
             JsonArray array = json.getAsJsonArray("macros");
-            Iterator<JsonElement> iterator = array.iterator();
-            MacroHandler macroHandler = new MacroHandler();
-            while (iterator.hasNext()) {
-                JsonObject object = iterator.next().getAsJsonObject();
-                Macro macro = Macro.deserialize(object);
-                macroHandler.macroMap.put(macro.name, macro);
+            for (JsonElement jsonElement : array) {
+                JsonObject object = jsonElement.getAsJsonObject();
+                Macro macro = new Macro();
+                macro.deserialize(object);
+                this.macroList.add(macro);
             }
-            return macroHandler;
+        } else {
+            SimpleMacros.LOGGER.info("Could not load macros.");
         }
         return this;
     }

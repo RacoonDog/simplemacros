@@ -1,34 +1,47 @@
 package io.github.racoondog.simplemacros.commands;
 
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import io.github.racoondog.simplemacros.*;
+import io.github.racoondog.simplemacros.Macro;
+import io.github.racoondog.simplemacros.SimpleMacros;
+import io.github.racoondog.simplemacros.utils.Enums;
+import io.github.racoondog.simplemacros.utils.Util;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.LiteralText;
-
-import java.util.Map;
-import java.util.Set;
 
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
+@Environment(EnvType.CLIENT)
 public class CommandManager {
     public static void registerCommands() {
-        ClientCommandManager.DISPATCHER.register(literal("macro")
-                .then(literal("add")
-                        .then(argument("name", StringArgumentType.word())
-                                .then(argument("modifier", EnumArgumentType.modifier())
-                                        .then(argument("key", EnumArgumentType.key())
-                                                .then(argument("actionType", EnumArgumentType.actionType())
-                                                        .then(argument("cancel", BoolArgumentType.bool())
-                                                                .then(argument("command", StringArgumentType.greedyString())
-                                                                        .executes(CommandManager::add))))))))
-                .then(literal("list").executes(CommandManager::list))
-                .then(literal("remove").then(argument("name", StringArgumentType.word()).executes(CommandManager::remove)))
-                .then(literal("test").executes(CommandManager::test))
-                .then(literal("save").executes(CommandManager::save)));
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) ClientCommandManager.DISPATCHER.register(literal("macro").then(literal("test").executes(CommandManager::test)));
+
+        ClientCommandManager.DISPATCHER.register(literal("macro").then(literal("list").executes(CommandManager::list)));
+
+        ClientCommandManager.DISPATCHER.register(literal("macro").then(literal("remove").then(argument("index", IntegerArgumentType.integer()).executes(CommandManager::remove))));
+
+        ClientCommandManager.DISPATCHER.register(literal("macro").then(literal("save").executes(CommandManager::save)));
+
+        ClientCommandManager.DISPATCHER.register(literal("macro").then(literal("add")
+                .then(argument("key", EnumArgumentType.key())
+                        .then(argument("modifier", EnumArgumentType.modifier())
+                                .then(argument("actionType", EnumArgumentType.actionType())
+                                        .then(argument("cancel", BoolArgumentType.bool())
+                                                .then(argument("command", StringArgumentType.greedyString())
+                                                        .executes(CommandManager::add)
+                                                )
+                                        )
+                                )
+                        )
+                )
+        ));
     }
 
     private static int save(CommandContext<FabricClientCommandSource> context) {
@@ -37,41 +50,36 @@ public class CommandManager {
     }
 
     private static int test(CommandContext<FabricClientCommandSource> context) {
-        SimpleMacros.MACRO_HANDLER.macroMap.put("test", new Macro("test", Enums.Key.U.keyIdentifier, Enums.Modifier.Alt.modifierIdentifier, "/say testCommand", Enums.ActionType.Press.isValid, false));
+        SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(Enums.Key.U.keyIdentifier, Enums.Modifier.Alt.modifierIdentifier, "/say testCommand", Enums.ActionType.Press.index, false));
         return 1;
     }
 
     private static int add(CommandContext<FabricClientCommandSource> context) {
-        String name = StringArgumentType.getString(context, "name");
-        Enums.Modifier modifier = EnumArgumentType.getModifier(context, "modifier");
         Enums.Key key = EnumArgumentType.getKey(context, "key");
+        Enums.Modifier modifier = EnumArgumentType.getModifier(context, "modifier");
         Enums.ActionType actionType = EnumArgumentType.getActionType(context, "actionType");
         boolean cancel = BoolArgumentType.getBool(context, "cancel");
         String command = StringArgumentType.getString(context, "command");
 
         if (!Util.verifyMacroValidity(modifier, key, cancel)) return 0;
 
-        SimpleMacros.MACRO_HANDLER.macroMap.put(name, new Macro(name, key.keyIdentifier, modifier.modifierIdentifier, command, actionType.isValid, cancel));
+        SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(key.keyIdentifier, modifier.modifierIdentifier, command, actionType.index, cancel));
         SimpleMacros.MACRO_HANDLER.save();
 
         return 1;
     }
 
     private static int list(CommandContext<FabricClientCommandSource> context) {
-        Set<Map.Entry<String, Macro>> macros = SimpleMacros.MACRO_HANDLER.macroMap.entrySet();
-        for (var macro : macros) {
-            context.getSource().sendFeedback(new LiteralText("'%s': '%s'".formatted(macro.getKey(), macro.getValue())));
+        if (SimpleMacros.MACRO_HANDLER.macroList.size() == 0) context.getSource().sendFeedback(new LiteralText("You do not have any macros."));
+        for (int i = 0; i < SimpleMacros.MACRO_HANDLER.macroList.size(); i++) {
+            context.getSource().sendFeedback(new LiteralText("%s: {%s}".formatted(i, SimpleMacros.MACRO_HANDLER.macroList.get(i))));
         }
         return 1;
     }
 
     private static int remove(CommandContext<FabricClientCommandSource> context) {
-        String name = StringArgumentType.getString(context, "name");
-        if (!SimpleMacros.MACRO_HANDLER.macroMap.containsKey(name)) {
-            context.getSource().sendFeedback(new LiteralText("Unknown macro. Use /macro list to see all macros."));
-            return 0;
-        }
-        SimpleMacros.MACRO_HANDLER.macroMap.remove(name);
+        int index = IntegerArgumentType.getInteger(context, "index");
+        SimpleMacros.MACRO_HANDLER.macroList.remove(index);
         return 1;
     }
 }

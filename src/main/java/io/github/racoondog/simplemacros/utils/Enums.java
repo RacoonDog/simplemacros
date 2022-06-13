@@ -1,9 +1,12 @@
-package io.github.racoondog.simplemacros;
+package io.github.racoondog.simplemacros.utils;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Function;
 
+@Environment(EnvType.CLIENT)
 public class Enums {
     public enum Modifier {
         None(0),
@@ -18,6 +21,25 @@ public class Enums {
 
         Modifier(int modifierIdentifier) {
             this.modifierIdentifier = modifierIdentifier;
+        }
+
+        public static boolean isShift(Enums.Modifier modifier) {
+            return modifier.equals(Shift) || modifier.equals(ShiftCtrl) || modifier.equals(ShiftAlt) || modifier.equals(ShiftCtrlAlt);
+        }
+
+        public static boolean isCtrl(Enums.Modifier modifier) {
+            return modifier.equals(Ctrl) || modifier.equals(ShiftCtrl) || modifier.equals(CtrlAlt) || modifier.equals(ShiftCtrlAlt);
+        }
+
+        public static boolean isAlt(Enums.Modifier modifier) {
+            return modifier.equals(Alt) || modifier.equals(ShiftAlt) || modifier.equals(CtrlAlt) || modifier.equals(ShiftCtrlAlt);
+        }
+
+        public static Modifier fromIndex(int index) {
+            for (var modifier : Modifier.values()) {
+                if (index == modifier.modifierIdentifier) return modifier;
+            }
+            return null;
         }
     }
 
@@ -180,6 +202,13 @@ public class Enums {
         public final int keyIdentifier;
         Key(int keyIdentifier) {
             this.keyIdentifier = keyIdentifier;
+        }
+
+        public static Key fromIndex(int index) {
+            for (var key : Key.values()) {
+                if (index == key.keyIdentifier) return key;
+            }
+            return null;
         }
     }
 }
