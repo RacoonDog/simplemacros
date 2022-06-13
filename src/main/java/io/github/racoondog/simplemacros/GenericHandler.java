@@ -8,12 +8,13 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class GenericHandler<T> implements Serializable<T> {
     private static final TypeAdapter<JsonObject> ADAPTER = new Gson().getAdapter(JsonObject.class);
-    private final File file;
+    private final Path file;
 
     public GenericHandler(Identifier id) {
         String namespace = id.getNamespace();
@@ -27,12 +28,12 @@ public class GenericHandler<T> implements Serializable<T> {
             }
         }
 
-        this.file = configDir.resolve(id.getNamespace()).resolve(id.getPath() + ".json").toFile();
+        this.file = configDir.resolve(id.getNamespace()).resolve(id.getPath() + ".json");
     }
 
     public void save() {
         try {
-            FileWriter writer = new FileWriter(this.file);
+            var writer = Files.newBufferedWriter(this.file, StandardCharsets.UTF_8);
             JsonWriter jsonWriter = new JsonWriter(writer);
             ADAPTER.write(jsonWriter, this.serialize());
         } catch (IOException e) {
@@ -41,15 +42,14 @@ public class GenericHandler<T> implements Serializable<T> {
     }
 
     public T load() {
-        if (this.file.exists()) {
+        if (Files.isRegularFile(this.file)) {
             try {
-                FileReader fileReader = new FileReader(this.file);
+                var fileReader = Files.newBufferedReader(this.file, StandardCharsets.UTF_8);
                 JsonObject jsonObject = new Gson().fromJson(fileReader, JsonObject.class);
                 return this.deserialize(jsonObject);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            return null;
         } else {
             this.save();
             return this.load();
