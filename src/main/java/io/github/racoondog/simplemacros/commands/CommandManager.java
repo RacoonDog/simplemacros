@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
@@ -46,11 +47,13 @@ public class CommandManager {
 
     private static int save(CommandContext<FabricClientCommandSource> context) {
         SimpleMacros.MACRO_HANDLER.save();
+        context.getSource().sendFeedback(new LiteralText("Saved macros."));
         return 1;
     }
 
     private static int test(CommandContext<FabricClientCommandSource> context) {
         SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(Enums.Key.U.keyIdentifier, Enums.Modifier.Alt.modifierIdentifier, "/say testCommand", Enums.ActionType.Press.index, false));
+        context.getSource().sendFeedback(new LiteralText("Created test macro."));
         return 1;
     }
 
@@ -66,11 +69,13 @@ public class CommandManager {
         SimpleMacros.MACRO_HANDLER.macroList.add(new Macro(key.keyIdentifier, modifier.modifierIdentifier, command, actionType.index, cancel));
         SimpleMacros.MACRO_HANDLER.save();
 
+        context.getSource().sendFeedback(new LiteralText("Successfully created new macro."));
+
         return 1;
     }
 
     private static int list(CommandContext<FabricClientCommandSource> context) {
-        if (SimpleMacros.MACRO_HANDLER.macroList.size() == 0) context.getSource().sendFeedback(new LiteralText("You do not have any macros."));
+        if (SimpleMacros.MACRO_HANDLER.macroList.size() == 0) context.getSource().sendFeedback(new LiteralText("You do not have any macros.").formatted(Formatting.RED));
         for (int i = 0; i < SimpleMacros.MACRO_HANDLER.macroList.size(); i++) {
             context.getSource().sendFeedback(new LiteralText("%s: {%s}".formatted(i, SimpleMacros.MACRO_HANDLER.macroList.get(i))));
         }
@@ -79,7 +84,12 @@ public class CommandManager {
 
     private static int remove(CommandContext<FabricClientCommandSource> context) {
         int index = IntegerArgumentType.getInteger(context, "index");
+        if (index > SimpleMacros.MACRO_HANDLER.macroList.size() - 1) {
+            context.getSource().sendFeedback(new LiteralText("Could not remove macro: Index out of bounds.").formatted(Formatting.RED));
+            return 0;
+        }
         SimpleMacros.MACRO_HANDLER.macroList.remove(index);
+        context.getSource().sendFeedback(new LiteralText("Successfully removed macro."));
         return 1;
     }
 }
