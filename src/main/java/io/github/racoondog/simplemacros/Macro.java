@@ -55,6 +55,6 @@ public class Macro implements Serializable<Macro> {
 
     @Override
     public String toString() {
-        return "%s %s Action: %s \"%s\"".formatted(Enums.Key.fromIndex(this.key), Enums.Modifier.fromIndex(this.modifier), Enums.ActionType.functionToIndex(this.isActionTypeValid), this.command);
+        return "%s, %s, Action: %s, \"%s\"".formatted(Enums.Key.fromIndex(this.key), Enums.Modifier.fromIndex(this.modifier), Enums.ActionType.functionToIndex(this.isActionTypeValid), this.command);
     }
 }
