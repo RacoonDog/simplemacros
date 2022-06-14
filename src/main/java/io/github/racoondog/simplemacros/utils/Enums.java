@@ -4,10 +4,16 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.HashMap;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class Enums {
+    private static final HashMap<Integer, Modifier> INTEGER_MODIFIER_HASH_MAP = new HashMap<>();
+    private static final HashMap<Function<Integer, Boolean>, Integer> FUNCTION_INTEGER_HASH_MAP = new HashMap<>();
+    private static final HashMap<Integer, Function<Integer, Boolean>> INTEGER_FUNCTION_HASH_MAP = new HashMap<>();
+    private static final HashMap<Integer, Key> INTEGER_KEY_HASH_MAP = new HashMap<>();
+
     public enum Modifier {
         None(0),
         Shift(1),
@@ -21,6 +27,7 @@ public class Enums {
 
         Modifier(int modifierIdentifier) {
             this.modifierIdentifier = modifierIdentifier;
+            INTEGER_MODIFIER_HASH_MAP.put(modifierIdentifier, this);
         }
 
         public static boolean hasShift(Enums.Modifier modifier) {
@@ -36,45 +43,34 @@ public class Enums {
         }
 
         public static Modifier fromIndex(int index) {
-            for (var modifier : Modifier.values()) {
-                if (index == modifier.modifierIdentifier) return modifier;
-            }
-            return null;
+            return INTEGER_MODIFIER_HASH_MAP.get(index);
         }
     }
 
     public enum ActionType {
         Press(0, num -> num == GLFW.GLFW_PRESS),
         Release(1, num -> num == GLFW.GLFW_RELEASE),
-        Repeat(2, num -> num == GLFW.GLFW_REPEAT),
+        Hold(2, num -> num == GLFW.GLFW_REPEAT),
         PressRelease(3, num -> num == GLFW.GLFW_PRESS || num == GLFW.GLFW_RELEASE),
-        PressRepeat(4, num -> num == GLFW.GLFW_PRESS || num == GLFW.GLFW_REPEAT),
-        ReleaseRepeat(5, num -> num == GLFW.GLFW_RELEASE || num == GLFW.GLFW_REPEAT),
-        PressReleaseRepeat(6, num -> true);
+        PressHold(4, num -> num == GLFW.GLFW_PRESS || num == GLFW.GLFW_REPEAT),
+        ReleaseHold(5, num -> num == GLFW.GLFW_RELEASE || num == GLFW.GLFW_REPEAT),
+        PressReleaseHold(6, num -> true);
         public final Function<Integer, Boolean> isValid;
         public final int index;
 
         ActionType(int index, Function<Integer, Boolean> isValid) {
             this.isValid = isValid;
             this.index = index;
+            FUNCTION_INTEGER_HASH_MAP.put(isValid, index);
+            INTEGER_FUNCTION_HASH_MAP.put(index, isValid);
         }
 
         public static int functionToIndex(Function<Integer, Boolean> function) {
-            for (var actionType : Enums.ActionType.values()) {
-                if (actionType.isValid.equals(function)) return actionType.index;
-            }
-            return Press.index;
+            return FUNCTION_INTEGER_HASH_MAP.get(function);
         }
+
         public static Function<Integer, Boolean> indexToFunction(int index) {
-            return switch (index) {
-                default -> Press.isValid;
-                case 1 -> Release.isValid;
-                case 2 -> Repeat.isValid;
-                case 3 -> PressRelease.isValid;
-                case 4 -> PressRepeat.isValid;
-                case 5 -> ReleaseRepeat.isValid;
-                case 6 -> PressReleaseRepeat.isValid;
-            };
+            return INTEGER_FUNCTION_HASH_MAP.get(index);
         }
     }
 
@@ -168,7 +164,7 @@ public class Enums {
         F24(GLFW.GLFW_KEY_F24),
         F25(GLFW.GLFW_KEY_F25),
         KeyPad0(GLFW.GLFW_KEY_KP_0),
-        KeyPad1(GLFW.GLFW_KEY_KP_0),
+        KeyPad1(GLFW.GLFW_KEY_KP_1),
         KeyPad2(GLFW.GLFW_KEY_KP_2),
         KeyPad3(GLFW.GLFW_KEY_KP_3),
         KeyPad4(GLFW.GLFW_KEY_KP_4),
@@ -202,13 +198,11 @@ public class Enums {
         public final int keyIdentifier;
         Key(int keyIdentifier) {
             this.keyIdentifier = keyIdentifier;
+            INTEGER_KEY_HASH_MAP.put(keyIdentifier, this);
         }
 
         public static Key fromIndex(int index) {
-            for (var key : Key.values()) {
-                if (index == key.keyIdentifier) return key;
-            }
-            return null;
+            return INTEGER_KEY_HASH_MAP.get(index);
         }
     }
 }
