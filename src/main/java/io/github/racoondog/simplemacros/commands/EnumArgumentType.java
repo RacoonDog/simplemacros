@@ -11,7 +11,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import io.github.racoondog.simplemacros.utils.Enums;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;

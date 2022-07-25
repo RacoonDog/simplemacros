@@ -3,7 +3,6 @@ package io.github.racoondog.simplemacros.utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
 
 @Environment(EnvType.CLIENT)
 public class Util {
@@ -15,7 +14,10 @@ public class Util {
     }
 
     public static void sendChatMessage(String message) {
-        assert MinecraftClient.getInstance().getNetworkHandler() != null;
-        MinecraftClient.getInstance().getNetworkHandler().sendPacket(new ChatMessageC2SPacket(message));
+        if (MinecraftClient.getInstance().player != null) MinecraftClient.getInstance().player.sendChatMessage(message);
+    }
+
+    public static void sendCommand(String command) {
+        if (MinecraftClient.getInstance().player != null) MinecraftClient.getInstance().player.sendCommand(command);
     }
 }

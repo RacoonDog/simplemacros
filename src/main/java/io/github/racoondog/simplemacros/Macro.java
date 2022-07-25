@@ -10,6 +10,7 @@ import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class Macro implements Serializable<Macro> {
+    public boolean isCommand;
     public int key;
     public int modifier;
     public String command;
@@ -20,7 +21,13 @@ public class Macro implements Serializable<Macro> {
     public Macro(int key, int modifier, String command, int actionType) {
         this.key = key;
         this.modifier = modifier;
-        this.command = command;
+        if (command.startsWith("/")) {
+            this.isCommand = true;
+            this.command = command.substring(1);
+        } else {
+            this.isCommand = false;
+            this.command = command;
+        }
         this.isActionTypeValid = Enums.ActionType.indexToFunction(actionType);
     }
 
@@ -31,7 +38,8 @@ public class Macro implements Serializable<Macro> {
     }
 
     public void run() {
-        Util.sendChatMessage(this.command);
+        if (isCommand) Util.sendCommand(this.command);
+        else Util.sendChatMessage(this.command);
     }
 
     @Override
@@ -39,6 +47,13 @@ public class Macro implements Serializable<Macro> {
         this.key = json.get("key").getAsInt();
         this.modifier = json.get("modifier").getAsInt();
         this.command = json.get("command").getAsString();
+        if (json.has("isCommand")) this.isCommand = json.get("isCommand").getAsBoolean();
+        else {
+            if (command.startsWith("/")) {
+                this.isCommand = true;
+                this.command = command.substring(1);
+            } else this.isCommand = false;
+        }
         this.isActionTypeValid = Enums.ActionType.indexToFunction(json.get("actionType").getAsInt());
         return this;
     }
@@ -49,12 +64,13 @@ public class Macro implements Serializable<Macro> {
         json.addProperty("key", this.key);
         json.addProperty("modifier", this.modifier);
         json.addProperty("command", this.command);
+        json.addProperty("isCommand", this.isCommand);
         json.addProperty("actionType", Enums.ActionType.functionToIndex(this.isActionTypeValid));
         return json;
     }
 
     @Override
     public String toString() {
-        return "%s, %s, Action: %s, \"%s\"".formatted(Enums.Key.fromIndex(this.key), Enums.Modifier.fromIndex(this.modifier), Enums.ActionType.functionToIndex(this.isActionTypeValid), this.command);
+        return "%s, %s, Action: %s, \"%s\", Type: %s".formatted(Enums.Key.fromIndex(this.key), Enums.Modifier.fromIndex(this.modifier), Enums.ActionType.functionToIndex(this.isActionTypeValid), this.command, this.isCommand ? "Command" : "Message");
     }
 }
