@@ -14,10 +14,10 @@ public class Util {
     }
 
     public static void sendChatMessage(String message) {
-        if (MinecraftClient.getInstance().player != null) MinecraftClient.getInstance().player.sendChatMessage(message);
+        if (MinecraftClient.getInstance().player != null) MinecraftClient.getInstance().player.sendChatMessage(message, null);
     }
 
     public static void sendCommand(String command) {
-        if (MinecraftClient.getInstance().player != null) MinecraftClient.getInstance().player.sendCommand(command);
+        if (MinecraftClient.getInstance().player != null) MinecraftClient.getInstance().player.sendCommand(command, null);
     }
 }
