@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import java.util.function.Function;
+import net.minecraft.client.MinecraftClient;
 
 @Environment(EnvType.CLIENT)
 public class Macro implements Serializable<Macro> {
@@ -34,6 +35,7 @@ public class Macro implements Serializable<Macro> {
     public boolean canRun(int key, int action, int modifier) {
         if (!this.isActionTypeValid.apply(action)) return false;
         if (this.modifier != modifier) return false;
+        if (MinecraftClient.getInstance().currentScreen != null) return false;
         return this.key == key;
     }
 
